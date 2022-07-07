@@ -1,0 +1,8 @@
+
+Which ssh syntax would properly setup a Local tunnel to PC1 SSH port? 
+A. ssh -L 1111:localhost:22 cctc@10.50.1.150 -N
+A. ssh -L 1111:localhost:22 student@10.50.39.167
+
+Which ssh syntax would allow us to establish a Dynamic tunnel using the Local tunnel created in #6
+D. ssh -D 9050 cctc@localhost -p 1111 -NT
+D. ssh -D 9050 student@localhost -p 1111 -NT
