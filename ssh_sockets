@@ -1,0 +1,82 @@
+ssh student@10.50.20.251 -L 1111:192.168.28.120:4242
+
+ssh -p 1111 student@localhost
+
+
+/home/student/.ssh/cm/%r@%h:%p student@10.50.39.167 
+
+ssh -o "ControlPath=/home/student/.ssh/cm/student@10.50.39.167" gray
+
+ssh -0 forward -L 1111:192.168.28.120:4242 -S /home/student/.ssh/cm/student@10.50.39.167:22 gray
+
+ss -ntlp
+
+ssh -p 1111 root@localhost
+
+ssh -0 forward -L 2222:192.168.25.105:2222 -S /home/student/.ssh/cm/student@10.50.39.167:22 gray
+
+
+ssh -0 cancel -L 2222:192.168.25.105:2222 -S /home/student/.ssh/cm/student@10.50.39.167:22 gray
+
+
+
+ssh -0 forward -L 1111:192.168.28.111:2222 -S /home/student/.ssh/cm/student@10.50.39.167:22 gray
+
+
+
+ssh -M -S /home/student/.ssh/cm/%r@%h:%p root@localhost -p 1111
+
+
+vim /home/student/.ssh/ssh_config
+
+
+ssh student@gray
+
+
+
+tasklist /svc
+
+ps -elf
+
+
+
+Aug 1st
+05-Security
+06-Python
+
+Aug 8th
+05-Security
+06-Bash
+
+Aug 15th
+05-IOE
+06-Powershell
+
+Aug 22nd
+05-GRAD
+06-OS
+
+Aug 29nd
+06-OS
+07-Python
+
+Sep 5th
+06-OS
+07-Bash
+
+Sep 12th
+06-Networking
+07-Powershell
+
+Sep 19th
+06-Networking
+07-OS
+
+Sep 19th
+06-Security
+07-OS
+
+
+
+
+
