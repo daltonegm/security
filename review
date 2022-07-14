@@ -183,3 +183,7 @@ if it calls for you to exploit a binary with a buffer overflow(gdb with ped) or 
 
 when you are reverse engineering it needs to take place on the host, the EIP will be different
 gdb will prob be installed on the box
+
+read c code
+
+
