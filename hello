@@ -1,0 +1,13 @@
+sudo iptables -A INPUT -f -j DROP
+
+sudo iptables -A INPUT -i eth0 -p tcp --syn -m limit --limit 1-/second -j ACCEPT
+
+make sure default policy is accept before flush
+
+sudo iptables -P INPUT/OUTPUT ACCEPT
+sudo iptables -F
+
+sudo iptables-restore < ipt.conf -v
+
+watch nmap -Pn <IP> -p 22
+
